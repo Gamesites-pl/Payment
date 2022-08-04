@@ -1,0 +1,8 @@
+version: "3.4"
+
+services:
+  php:
+    container_name: php-payment
+    build: .
+    volumes:
+      - .:/var/www/html

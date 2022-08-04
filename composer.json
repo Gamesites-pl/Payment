@@ -1,0 +1,22 @@
+{
+    "name": "gamesites/payment",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^7.4",
+        "symfony/form": "^6.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+    "autoload": {
+        "psr-4": {
+            "Gamesites\\Payment\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Adexion"
+        }
+    ],
+    "minimum-stability": "stable"
+}
