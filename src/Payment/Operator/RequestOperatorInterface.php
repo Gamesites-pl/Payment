@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 interface RequestOperatorInterface
 {
-    public function __construct(FormFactoryInterface $formFactory, string $uri, AbstractAuthOperator $authOperator);
+    public function __construct(FormFactoryInterface $formFactory, AbstractAuthOperator $authOperator, string $uri, string $statusUri = null);
 
     public function getForm(array $requestData, PriceInterface|DetailInterface $order): FormInterface;
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gamesites\Payment\Integration\HotPay\Request;
+namespace Gamesites\Payment\Integration\DirectBilling\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
 use Symfony\Component\Form\FormInterface;
@@ -17,10 +17,9 @@ final class RequestBuilder extends AbstractRequestOperator implements RequestOpe
         $formData = [
             'SEKRET' => $this->operatorData->getFieldOne(),
             'KWOTA' => $order->getDiscountedPrice(),
-            'NAZWA_USLUGI' => $order->getName(),
-            'ADRES_WWW' => $this->uri,
+            'PRZEKIEROWANIE_SUKCESS' => $this->uri,
+            'PRZEKIEROWANIE_BLAD' => $this->uri,
             'ID_ZAMOWIENIA' => $requestData['orderId'],
-            'EMAIL' => $requestData['email']
         ];
 
         $form = $this->formFactory->create(FormType::class);

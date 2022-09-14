@@ -1,6 +1,6 @@
 <?php
 
-namespace Gamesites\Payment\Integration\HotPay\Request;
+namespace Gamesites\Payment\Integration\CashBill\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
 use Symfony\Component\Form\FormInterface;
@@ -15,13 +15,15 @@ final class RequestBuilder extends AbstractRequestOperator implements RequestOpe
         $this->operatorData->validate();
 
         $formData = [
-            'SEKRET' => $this->operatorData->getFieldOne(),
-            'KWOTA' => $order->getDiscountedPrice(),
-            'NAZWA_USLUGI' => $order->getName(),
-            'ADRES_WWW' => $this->uri,
-            'ID_ZAMOWIENIA' => $requestData['orderId'],
-            'EMAIL' => $requestData['email']
+            'service' => $this->operatorData->getFieldTwo(),
+            'amount' => $order->getDiscountedPrice(),
+            'desc' =>  $order->getName(),
+            'userdata' => $requestData['orderId'],
         ];
+
+        $formData['sign'] = md5(
+            $formData['service'] . '|' . $formData['amount'] . '||' . $formData['desc'] . '||' . $formData['userdata'] . '||||||||||||' .  $this->operatorData->getFieldOne()
+        );
 
         $form = $this->formFactory->create(FormType::class);
         $form->submit($formData);

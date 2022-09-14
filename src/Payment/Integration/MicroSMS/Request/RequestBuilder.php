@@ -1,6 +1,6 @@
 <?php
 
-namespace Gamesites\Payment\Integration\HotPay\Request;
+namespace Gamesites\Payment\Integration\MicroSMS\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
 use Symfony\Component\Form\FormInterface;
@@ -14,13 +14,17 @@ final class RequestBuilder extends AbstractRequestOperator implements RequestOpe
     {
         $this->operatorData->validate();
 
+        $md5 = md5($this->operatorData->getFieldTwo() . $this->operatorData->getFieldOne() . $order->getDiscountedPrice());
+
         $formData = [
-            'SEKRET' => $this->operatorData->getFieldOne(),
-            'KWOTA' => $order->getDiscountedPrice(),
-            'NAZWA_USLUGI' => $order->getName(),
-            'ADRES_WWW' => $this->uri,
-            'ID_ZAMOWIENIA' => $requestData['orderId'],
-            'EMAIL' => $requestData['email']
+            'shopid' => $this->operatorData->getFieldTwo(),
+            'signature' => $md5,
+            'amount' => $order->getDiscountedPrice(),
+            'control' => $requestData['orderId'],
+            'return_urlc' => $this->statusUri,
+            'return_url' => $this->uri,
+            'description' => $order->getName(),
+            'test' => 'false'
         ];
 
         $form = $this->formFactory->create(FormType::class);

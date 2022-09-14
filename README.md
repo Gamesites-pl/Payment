@@ -4,7 +4,6 @@
 Coming soon ...
 
 ## RUN TEST
-
 Firs run `docker-compose up -d`. Next you should to install composer by `docker exec -it php-payment composer install`
 
 ### CodeSniffing

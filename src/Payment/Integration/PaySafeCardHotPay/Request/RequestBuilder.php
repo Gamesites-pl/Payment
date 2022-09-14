@@ -1,6 +1,6 @@
 <?php
 
-namespace Gamesites\Payment\Integration\HotPay\Request;
+namespace Gamesites\Payment\Integration\PaySafeCardHotPay\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
 use Symfony\Component\Form\FormInterface;

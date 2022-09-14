@@ -1,6 +1,6 @@
 <?php
 
-namespace Gamesites\Payment\Integration\HotPay\Request;
+namespace Gamesites\Payment\Integration\PaySafeCardPayByLink\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
 use Symfony\Component\Form\FormInterface;
@@ -14,13 +14,18 @@ final class RequestBuilder extends AbstractRequestOperator implements RequestOpe
     {
         $this->operatorData->validate();
 
+        $sha256 = hash('sha256', $this->operatorData->getFieldTwo() . $this->operatorData->getFieldThree() . $order->getDiscountedPrice());
+
         $formData = [
-            'SEKRET' => $this->operatorData->getFieldOne(),
-            'KWOTA' => $order->getDiscountedPrice(),
-            'NAZWA_USLUGI' => $order->getName(),
-            'ADRES_WWW' => $this->uri,
-            'ID_ZAMOWIENIA' => $requestData['orderId'],
-            'EMAIL' => $requestData['email']
+            'userid' => $this->operatorData->getFieldTwo(),
+            'shopid' => $this->operatorData->getFieldOne(),
+            'amount' => $order->getDiscountedPrice(),
+            'return_ok' => $this->uri,
+            'return_fail' => $this->uri,
+            'url' => $this->statusUri,
+            'control' => $requestData['orderId'],
+            'hash' => $sha256,
+            'description' =>$order->getName(),
         ];
 
         $form = $this->formFactory->create(FormType::class);
