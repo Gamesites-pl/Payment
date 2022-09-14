@@ -3,10 +3,10 @@
 namespace Gamesites\Payment\Integration\PaySafeCardPayByLink\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
-use Symfony\Component\Form\FormInterface;
 use Gamesites\Payment\Dto\PriceInterface;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
+use Symfony\Component\Form\FormInterface;
 
 final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
 {
@@ -25,7 +25,7 @@ final class RequestBuilder extends AbstractRequestOperator implements RequestOpe
             'url' => $this->statusUri,
             'control' => $requestData['orderId'],
             'hash' => $sha256,
-            'description' =>$order->getName(),
+            'description' => $order->getName(),
         ];
 
         $form = $this->formFactory->create(FormType::class);

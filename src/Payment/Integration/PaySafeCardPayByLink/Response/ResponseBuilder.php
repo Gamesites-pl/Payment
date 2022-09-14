@@ -18,6 +18,6 @@ final class ResponseBuilder extends AbstractResponseOperator implements Response
 
     private function getHash(array $operatorData): string
     {
-        return hash("sha256", $operatorData['secret']. $this->authOperator->getFieldTwo() . $operatorData['amount']);
+        return hash("sha256", $operatorData['secret'] . $this->authOperator->getFieldTwo() . $operatorData['amount']);
     }
 }

@@ -8,7 +8,7 @@ use Gamesites\Payment\Operator\ResponseOperatorInterface;
 
 final class ResponseBuilder extends AbstractResponseOperator implements ResponseOperatorInterface
 {
-    protected array $successfullyStatuses = [1,'1'];
+    protected array $successfullyStatuses = [1, '1'];
     protected string $statusField = 'STATUS';
 
     public function handlePaymentExist(array $operatorData, HistoryInterface $history): bool
