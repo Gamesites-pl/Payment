@@ -6,7 +6,7 @@ use Gamesites\Payment\Dto\HistoryInterface;
 use Gamesites\Payment\Operator\AbstractResponseOperator;
 use Gamesites\Payment\Operator\ResponseOperatorInterface;
 
-final class ResponseBuilder extends AbstractResponseOperator implements ResponseOperatorInterface
+class ResponseBuilder extends AbstractResponseOperator implements ResponseOperatorInterface
 {
     protected array $successfullyStatuses = ['SUCCESS'];
     protected string $statusField = 'STATUS';

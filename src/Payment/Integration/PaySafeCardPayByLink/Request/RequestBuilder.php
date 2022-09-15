@@ -3,27 +3,28 @@
 namespace Gamesites\Payment\Integration\PaySafeCardPayByLink\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
-use Gamesites\Payment\Dto\PriceInterface;
+use Gamesites\Payment\Dto\PayerInterface;
+use Gamesites\Payment\Dto\Price;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
 use Symfony\Component\Form\FormInterface;
 
 final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
 {
-    public function getForm(array $requestData, PriceInterface|DetailInterface $order): FormInterface
+    public function getForm(Price|DetailInterface $order, ?PayerInterface $payer = null): FormInterface
     {
-        $this->operatorData->validate();
+        $this->authOperator->validate();
 
-        $sha256 = hash('sha256', $this->operatorData->getFieldTwo() . $this->operatorData->getFieldThree() . $order->getDiscountedPrice());
+        $sha256 = hash('sha256', $this->authOperator->getFieldTwo() . $this->authOperator->getFieldThree() . $order->getDiscountedPrice());
 
         $formData = [
-            'userid' => $this->operatorData->getFieldTwo(),
-            'shopid' => $this->operatorData->getFieldOne(),
+            'userid' => $this->authOperator->getFieldTwo(),
+            'shopid' => $this->authOperator->getFieldOne(),
             'amount' => $order->getDiscountedPrice(),
             'return_ok' => $this->uri,
             'return_fail' => $this->uri,
             'url' => $this->statusUri,
-            'control' => $requestData['orderId'],
+            'control' => $order->getId(),
             'hash' => $sha256,
             'description' => $order->getName(),
         ];

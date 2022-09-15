@@ -2,30 +2,10 @@
 
 namespace Gamesites\Payment\Integration\PaySafeCardHotPay\Request;
 
-use Gamesites\Payment\Dto\DetailInterface;
-use Symfony\Component\Form\FormInterface;
-use Gamesites\Payment\Dto\PriceInterface;
-use Gamesites\Payment\Operator\AbstractRequestOperator;
+use Gamesites\Payment\Integration\HotPay\Request\RequestBuilder as HotPayRequestBuilder;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
 
-final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
+final class RequestBuilder extends HotPayRequestBuilder implements RequestOperatorInterface
 {
-    public function getForm(array $requestData, PriceInterface|DetailInterface $order): FormInterface
-    {
-        $this->operatorData->validate();
-
-        $formData = [
-            'SEKRET' => $this->operatorData->getFieldOne(),
-            'KWOTA' => $order->getDiscountedPrice(),
-            'NAZWA_USLUGI' => $order->getName(),
-            'ADRES_WWW' => $this->uri,
-            'ID_ZAMOWIENIA' => $requestData['orderId'],
-            'EMAIL' => $requestData['email']
-        ];
-
-        $form = $this->formFactory->create(FormType::class);
-        $form->submit($formData);
-
-        return $form;
-    }
+    protected const FORM_TYPE = FormType::class;
 }

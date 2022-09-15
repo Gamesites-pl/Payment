@@ -3,26 +3,27 @@
 namespace Gamesites\Payment\Integration\CashBill\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
+use Gamesites\Payment\Dto\PayerInterface;
 use Symfony\Component\Form\FormInterface;
-use Gamesites\Payment\Dto\PriceInterface;
+use Gamesites\Payment\Dto\Price;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
 
 final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
 {
-    public function getForm(array $requestData, PriceInterface|DetailInterface $order): FormInterface
+    public function getForm(Price|DetailInterface $order, ?PayerInterface $payer = null): FormInterface
     {
-        $this->operatorData->validate();
+        $this->authOperator->validate();
 
         $formData = [
-            'service' => $this->operatorData->getFieldTwo(),
+            'service' => $this->authOperator->getFieldTwo(),
             'amount' => $order->getDiscountedPrice(),
             'desc' =>  $order->getName(),
-            'userdata' => $requestData['orderId'],
+            'userdata' => $order->getId(),
         ];
 
         $formData['sign'] = md5(
-            $formData['service'] . '|' . $formData['amount'] . '||' . $formData['desc'] . '||' . $formData['userdata'] . '||||||||||||' .  $this->operatorData->getFieldOne()
+            $formData['service'] . '|' . $formData['amount'] . '||' . $formData['desc'] . '||' . $formData['userdata'] . '||||||||||||' .  $this->authOperator->getFieldOne()
         );
 
         $form = $this->formFactory->create(FormType::class);

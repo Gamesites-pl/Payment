@@ -9,10 +9,12 @@ use Gamesites\Payment\Integration\HotPay\AuthOperator;
 
 abstract class AbstractResponseOperator implements ResponseOperatorInterface
 {
+    protected AuthOperator $authOperator;
+
     protected array $successfullyStatuses;
     protected string $statusField;
 
-    protected AuthOperator $authOperator;
+    public const RESPONSE = 'OK';
 
     public function __construct(AuthOperator $authOperator)
     {

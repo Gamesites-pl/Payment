@@ -3,23 +3,24 @@
 namespace Gamesites\Payment\Integration\DirectBilling\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
-use Symfony\Component\Form\FormInterface;
-use Gamesites\Payment\Dto\PriceInterface;
+use Gamesites\Payment\Dto\PayerInterface;
+use Gamesites\Payment\Dto\Price;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
+use Symfony\Component\Form\FormInterface;
 
 final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
 {
-    public function getForm(array $requestData, PriceInterface|DetailInterface $order): FormInterface
+    public function getForm(Price|DetailInterface $order, ?PayerInterface $payer = null): FormInterface
     {
-        $this->operatorData->validate();
+        $this->authOperator->validate();
 
         $formData = [
-            'SEKRET' => $this->operatorData->getFieldOne(),
+            'SEKRET' => $this->authOperator->getFieldOne(),
             'KWOTA' => $order->getDiscountedPrice(),
             'PRZEKIEROWANIE_SUKCESS' => $this->uri,
             'PRZEKIEROWANIE_BLAD' => $this->uri,
-            'ID_ZAMOWIENIA' => $requestData['orderId'],
+            'ID_ZAMOWIENIA' => $order->getId(),
         ];
 
         $form = $this->formFactory->create(FormType::class);

@@ -3,27 +3,30 @@
 namespace Gamesites\Payment\Integration\HotPay\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
-use Symfony\Component\Form\FormInterface;
-use Gamesites\Payment\Dto\PriceInterface;
+use Gamesites\Payment\Dto\PayerInterface;
+use Gamesites\Payment\Dto\Price;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
+use Symfony\Component\Form\FormInterface;
 
-final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
+class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
 {
-    public function getForm(array $requestData, PriceInterface|DetailInterface $order): FormInterface
+    protected const FORM_TYPE = FormType::class;
+
+    public function getForm(Price|DetailInterface $order, ?PayerInterface $payer = null): FormInterface
     {
-        $this->operatorData->validate();
+        $this->authOperator->validate();
 
         $formData = [
-            'SEKRET' => $this->operatorData->getFieldOne(),
+            'SEKRET' => $this->authOperator->getFieldOne(),
             'KWOTA' => $order->getDiscountedPrice(),
             'NAZWA_USLUGI' => $order->getName(),
             'ADRES_WWW' => $this->uri,
-            'ID_ZAMOWIENIA' => $requestData['orderId'],
-            'EMAIL' => $requestData['email']
+            'ID_ZAMOWIENIA' => $order->getId(),
+            'EMAIL' => $payer->getEmail() ?: ''
         ];
 
-        $form = $this->formFactory->create(FormType::class);
+        $form = $this->formFactory->create($this::FORM_TYPE);
         $form->submit($formData);
 
         return $form;

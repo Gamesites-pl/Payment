@@ -2,30 +2,9 @@
 
 namespace Gamesites\Payment\Integration\PaySafeCardHotPay\Response;
 
-use Gamesites\Payment\Dto\HistoryInterface;
-use Gamesites\Payment\Operator\AbstractResponseOperator;
+use Gamesites\Payment\Integration\HotPay\Response\ResponseBuilder as HotPayResponseBuilder;
 use Gamesites\Payment\Operator\ResponseOperatorInterface;
 
-final class ResponseBuilder extends AbstractResponseOperator implements ResponseOperatorInterface
+final class ResponseBuilder extends HotPayResponseBuilder implements ResponseOperatorInterface
 {
-    protected array $successfullyStatuses = ['SUCCESS'];
-    protected string $statusField = 'STATUS';
-
-    public function handlePaymentExist(array $operatorData, HistoryInterface $history): bool
-    {
-        return $operatorData['HASH'] && $this->getHash($operatorData) === $operatorData['HASH'];
-    }
-
-    private function getHash(array $operatorData): string
-    {
-        return hash(
-            'sha256',
-            $this->authOperator->getFieldTwo() . ';'
-            . ($operatorData['KWOTA'] ?? '') . ';'
-            . ($operatorData['ID_PLATNOSCI'] ?? '') . ';'
-            . $operatorData['ID_ZAMOWIENIA'] . ';'
-            . ($operatorData['STATUS'] ?? '') . ';'
-            . ($operatorData['SEKRET'] ?? '')
-        );
-    }
 }

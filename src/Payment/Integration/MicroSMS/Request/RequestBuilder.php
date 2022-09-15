@@ -3,24 +3,25 @@
 namespace Gamesites\Payment\Integration\MicroSMS\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
-use Symfony\Component\Form\FormInterface;
-use Gamesites\Payment\Dto\PriceInterface;
+use Gamesites\Payment\Dto\PayerInterface;
+use Gamesites\Payment\Dto\Price;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
+use Symfony\Component\Form\FormInterface;
 
 final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
 {
-    public function getForm(array $requestData, PriceInterface|DetailInterface $order): FormInterface
+    public function getForm(Price|DetailInterface $order, ?PayerInterface $payer = null): FormInterface
     {
-        $this->operatorData->validate();
+        $this->authOperator->validate();
 
-        $md5 = md5($this->operatorData->getFieldTwo() . $this->operatorData->getFieldOne() . $order->getDiscountedPrice());
+        $md5 = md5($this->authOperator->getFieldTwo() . $this->authOperator->getFieldOne() . $order->getDiscountedPrice());
 
         $formData = [
-            'shopid' => $this->operatorData->getFieldTwo(),
+            'shopid' => $this->authOperator->getFieldTwo(),
             'signature' => $md5,
             'amount' => $order->getDiscountedPrice(),
-            'control' => $requestData['orderId'],
+            'control' => $order->getId(),
             'return_urlc' => $this->statusUri,
             'return_url' => $this->uri,
             'description' => $order->getName(),
