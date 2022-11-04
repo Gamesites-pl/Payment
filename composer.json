@@ -3,7 +3,8 @@
     "type": "library",
     "require": {
         "guzzlehttp/guzzle": "^7.4",
-        "symfony/form": "^6.1"
+        "symfony/form": "^6.1",
+        "symfony/expression-language": "^6.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

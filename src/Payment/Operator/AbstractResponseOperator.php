@@ -33,6 +33,6 @@ abstract class AbstractResponseOperator implements ResponseOperatorInterface
     /** @throws RuntimeException */
     private function handleUnsuccessfullyResponse(?string $status, HistoryInterface $history): bool
     {
-        return in_array($status, $this->successfullyStatuses);
+        return $history->getLastStoredStatus() !== $status && in_array($status, $this->successfullyStatuses);
     }
 }

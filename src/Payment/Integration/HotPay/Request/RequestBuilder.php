@@ -4,7 +4,6 @@ namespace Gamesites\Payment\Integration\HotPay\Request;
 
 use Gamesites\Payment\Dto\DetailInterface;
 use Gamesites\Payment\Dto\PayerInterface;
-use Gamesites\Payment\Dto\Price;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
 use Symfony\Component\Form\FormInterface;
@@ -13,7 +12,7 @@ class RequestBuilder extends AbstractRequestOperator implements RequestOperatorI
 {
     protected const FORM_TYPE = FormType::class;
 
-    public function getForm(Price|DetailInterface $order, ?PayerInterface $payer = null): FormInterface
+    public function getForm(DetailInterface $order, ?PayerInterface $payer = null): FormInterface
     {
         $this->authOperator->validate();
 

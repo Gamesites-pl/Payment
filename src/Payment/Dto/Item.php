@@ -2,7 +2,7 @@
 
 namespace Gamesites\Payment\Dto;
 
-class Price implements DetailInterface
+class Item implements DetailInterface
 {
     private float $discount = .0;
     private float $price = 0;

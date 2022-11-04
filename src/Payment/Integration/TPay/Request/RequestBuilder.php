@@ -5,13 +5,12 @@ namespace Gamesites\Payment\Integration\TPay\Request;
 use Gamesites\Payment\Dto\DetailInterface;
 use Gamesites\Payment\Dto\PayerInterface;
 use Symfony\Component\Form\FormInterface;
-use Gamesites\Payment\Dto\Price;
 use Gamesites\Payment\Operator\AbstractRequestOperator;
 use Gamesites\Payment\Operator\RequestOperatorInterface;
 
 final class RequestBuilder extends AbstractRequestOperator implements RequestOperatorInterface
 {
-    public function getForm(Price|DetailInterface $order, ?PayerInterface $payer = null): FormInterface
+    public function getForm(DetailInterface $order, ?PayerInterface $payer = null): FormInterface
     {
         $this->authOperator->validate();
 
