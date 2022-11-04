@@ -14,7 +14,8 @@ class SimpleCart extends Item implements DetailInterface
         $this->items[] = $item;
     }
 
-    public function setDiscountCode(DiscountCodeInterface $discountCode) {
+    public function setDiscountCode(DiscountCodeInterface $discountCode)
+    {
         array_map([$discountCode, 'setDiscount'], $this->items);
     }
 
