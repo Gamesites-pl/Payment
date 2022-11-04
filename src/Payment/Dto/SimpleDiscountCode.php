@@ -17,12 +17,14 @@ class SimpleDiscountCode implements DiscountCodeInterface
         $this->supportedItems = $supportedItems;
     }
 
-    public function setDiscount(Item $item)
+    public function setDiscount(Item $item): Item
     {
         $ex = new ExpressionLanguage();
 
         if (in_array($item->getId(), array_map(fn(Item $item) => $item->getId(), $this->supportedItems))) {
             $item->setDiscount($ex->evaluate($this->expression));
         }
+
+        return $item;
     }
 }
