@@ -37,7 +37,8 @@ abstract class AbstractResponseOperator implements ResponseOperatorInterface
         return $history->getLastStoredStatus() !== $status && in_array($status, $this->successfullyStatuses);
     }
 
-    public function init(string $uri) {
+    public function init(string $uri)
+    {
         $this->uri = $uri;
     }
 }

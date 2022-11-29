@@ -29,7 +29,8 @@ class ResponseBuilder extends AbstractResponseOperator implements ResponseOperat
         $operatorData['crc'] = $this->authOperator->getFieldThree();
 
         return hash(
-            'sha384', json_encode($operatorData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            'sha384',
+            json_encode($operatorData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
         );
     }
 
@@ -40,7 +41,8 @@ class ResponseBuilder extends AbstractResponseOperator implements ResponseOperat
 
         unset($operatorData['originAmount'], $operatorData['methodId'], $operatorData['statement']);
         $operatorData['sign'] = hash(
-            'sha384', json_encode([
+            'sha384',
+            json_encode([
                 'sessionId' => $operatorData['sessionId'],
                 'orderId' => $operatorData['orderId'],
                 'amount' => $operatorData['amount'],

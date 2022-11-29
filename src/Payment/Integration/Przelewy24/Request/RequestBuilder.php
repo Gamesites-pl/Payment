@@ -41,7 +41,8 @@ final class RequestBuilder extends AbstractRequestOperator implements RequestOpe
             'urlReturn' => $this->statusUri,
             'currency' => 'PLN',
             'sign' => hash(
-                'sha384', json_encode([
+                'sha384',
+                json_encode([
                     'sessionId' => $sessionId,
                     'merchantId' => $this->authOperator->getFieldOne(),
                     'amount' => $order->getPrice(),
