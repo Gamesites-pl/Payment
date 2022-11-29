@@ -12,7 +12,7 @@ final class ResponseBuilder extends AbstractResponseOperator implements Response
     protected string $statusField = 'tr_status';
     public const RESPONSE = 'TRUE';
 
-    public function handlePaymentExist(array $operatorData, HistoryInterface $history): bool
+    public function handlePaymentExist(array &$operatorData, HistoryInterface $history): bool
     {
         return $operatorData['md5sum'] && $this->getHash($operatorData) !== $operatorData['md5sum'];
     }

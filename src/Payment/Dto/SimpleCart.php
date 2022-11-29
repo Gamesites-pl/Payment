@@ -8,6 +8,7 @@ class SimpleCart extends Item implements DetailInterface
 {
     /** @var Item[] */
     private array $items;
+    private string $country;
 
     public function addItem(Item $item)
     {
@@ -42,5 +43,17 @@ class SimpleCart extends Item implements DetailInterface
     public function setPrice(float $price): self
     {
         throw new RuntimeException('Can not set price to a SimpleCart object');
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
     }
 }

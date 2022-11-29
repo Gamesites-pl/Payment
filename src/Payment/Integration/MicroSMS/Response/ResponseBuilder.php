@@ -11,7 +11,7 @@ final class ResponseBuilder extends AbstractResponseOperator implements Response
     protected array $successfullyStatuses = ['true', true, 'TRUE'];
     protected string $statusField = 'status';
 
-    public function handlePaymentExist(array $operatorData, HistoryInterface $history): bool
+    public function handlePaymentExist(array &$operatorData, HistoryInterface $history): bool
     {
         return $operatorData[$this->statusField] && $history;
     }

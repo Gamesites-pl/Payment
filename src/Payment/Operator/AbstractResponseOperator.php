@@ -15,6 +15,7 @@ abstract class AbstractResponseOperator implements ResponseOperatorInterface
     protected string $statusField;
 
     public const RESPONSE = 'OK';
+    protected string $uri;
 
     public function __construct(AuthOperator $authOperator)
     {
@@ -34,5 +35,9 @@ abstract class AbstractResponseOperator implements ResponseOperatorInterface
     private function handleUnsuccessfullyResponse(?string $status, HistoryInterface $history): bool
     {
         return $history->getLastStoredStatus() !== $status && in_array($status, $this->successfullyStatuses);
+    }
+
+    public function init(string $uri) {
+        $this->uri = $uri;
     }
 }

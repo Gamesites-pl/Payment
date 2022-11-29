@@ -12,5 +12,5 @@ interface ResponseOperatorInterface
     public function getResponse(array $operatorData, HistoryInterface $history): PaymentStatusEnum;
 
     /** @throws RuntimeException */
-    public function handlePaymentExist(array $operatorData, HistoryInterface $history): bool;
+    public function handlePaymentExist(array &$operatorData, HistoryInterface $history): bool;
 }

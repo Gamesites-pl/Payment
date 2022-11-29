@@ -9,6 +9,7 @@ class Item implements DetailInterface
 
     private string $name;
     private string $id;
+    private string $country;
 
     public function getPrice(): float
     {
@@ -61,5 +62,17 @@ class Item implements DetailInterface
     public function getDiscountedPrice(): float
     {
         return $this->price - ($this->price * $this->discount);
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
     }
 }
